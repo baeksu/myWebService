@@ -1,5 +1,7 @@
-package Lee.myWebProject.member;
+package Lee.myWebProject.repository;
 
+
+import Lee.myWebProject.domain.Member;
 
 public interface MemberRepository {
     /**
@@ -9,5 +11,5 @@ public interface MemberRepository {
 
     void save(Member member);
 
-    Member findById(Long memberId);
+    Member findById(String id);
 }

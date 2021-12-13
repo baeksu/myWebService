@@ -1,4 +1,4 @@
-package Lee.myWebProject.member;
+package Lee.myWebProject.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +11,10 @@ public class Member {
     private String id;
     private String password;
 
-    public Member(Long idNum, String name, String id, String password) {
-        this.idNum = idNum;
+    public Member() {
+    }
+
+    public Member(String name, String id, String password) {
         this.name = name;
         this.id = id;
         this.password = password;
