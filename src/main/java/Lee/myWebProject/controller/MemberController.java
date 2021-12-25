@@ -31,12 +31,11 @@ public class MemberController {
     public void init(){
         memberService.join(new Member("경우", "kyungu", "123"));
     }
+    /**+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++**/
 
     @ResponseBody
     @GetMapping("/login")
-    public String login(@ModelAttribute Member member,
-                        Model model) {
-
+    public String login(@ModelAttribute Member member, Model model) {
         if (memberService.getMemberRepository().findById(member.getId()) == null){
             return "login 실패!!";
         }
@@ -49,16 +48,16 @@ public class MemberController {
 
     @GetMapping("/join")
     public String joinMember(){
-        return "/memberJoin";//근데 이거 static 에 있는지 templates에 있는지 어떻게 알지?
+        return "/memberJoin";// @Controller 면서 String 을 반환하면 view의 논리적 이름이 된다.
     }
 
     @ResponseBody
     @PostMapping("/join")
-    public String addMember(@ModelAttribute Member member,
-                            Model model) {
-
+    public String addMember(@ModelAttribute Member member, Model model) {
         model.addAttribute(member);
-        memberService.join(member);
+        if(memberService.join(member) == null){
+            return "중복된 아이디 입니다.";
+        }
 
         return "저장 성공!";
     }

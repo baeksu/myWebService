@@ -4,19 +4,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>회원 가입 화면!!!</title>
+
+    <style>
+        html,
+        body {
+          height: 100%;
+        }
+        .container {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          height: 100%;
+          align-items: center;
+          /* justify-content: center; */
+        }
+        .input {
+          width: 150px;
+          margin: 3px 0;
+          outline: none;
+          text-align: center;
+        }
+      </style>
+
 </head>
 <body>
-<h1>회원가입 화면</h1>
-<form action="/join" method="post">
-    <fieldset>
-        <legend>회원가입</legend>
-        <label>이름을 입력하세요: <input type="text" name="name"></label>
-        <label>아이디를 입력하세요: <input type="text" name="id" size="15"></label>
-        <label>비밀번호를 입력하세요: <input type="password" name="password" size="15"></label>
-        <input type="submit" value="가입하기">
-    </fieldset>
-</form>
-
+<div class="container">
+    <form action="/join" method="post">
+        <h1>회원 정보 입력</h1>
+        <input class="input" placeholder="ID" />
+        <input class="input" placeholder="PASSWORD" />
+        <input class="input" placeholder="PASSWORD AGAIN" />
+        <input class="input" placeholder="EMAIL" />
+        <input class="input" placeholder="PHONE NUMBER" />
+        <input type="submit" value="제출">
+    </form>
+</div>
 </body>
 </html>

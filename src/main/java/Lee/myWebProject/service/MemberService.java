@@ -21,10 +21,10 @@ public class MemberService {
     /**
      * 회원 가입
      */
-    public void join(Member member) {
+    public Member join(Member member) {
         validateDuplicateMember(member);
         memberRepository.save(member);
-
+        return member;
     }
 
     private void validateDuplicateMember(Member member) {
