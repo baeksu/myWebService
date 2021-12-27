@@ -1,8 +1,8 @@
 package Lee.myWebProject.controller;
 
+
 import Lee.myWebProject.domain.Member;
 import Lee.myWebProject.service.MemberService;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 
 
 @Slf4j
@@ -29,38 +30,61 @@ public class MemberController {
      */
     @PostConstruct
     public void init(){
-        memberService.join(new Member("경우", "kyungu", "123"));
-    }
-    /**+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++**/
+        Member member = new Member();
+        member.setUserName("백수");
+        member.setUserId("baeksu");
+        member.setPassword("123");
+        member.setEmail("baeksu@ex.com");
 
+        memberService.join(member);
+    }
+
+    /**
+     * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     **/
+
+    /**
+     * id, pw 를 입력받아서 로그인 하는 화면
+     */
     @ResponseBody
-    @GetMapping("/login")
-    public String login(@ModelAttribute Member member, Model model) {
-        if (memberService.getMemberRepository().findById(member.getId()) == null){
-            return "login 실패!!";
-        }
-        log.info("member.name={}", member.getName());
-        log.info("member.id={}", member.getId());
-        log.info("member.password={}", member.getPassword());
+    @PostMapping("/login")
+    public String login(@ModelAttribute Member member) {
+        //@ModelAttribute로 해도 값이 넘어오네? 스프링이 알아서 html name이름을 보고 해당
+        // Member의 set을 호출하는건가? -> get,post 처리하는거좀 블로그에 정리한번 하자
+        Long memberId = memberService.doLogin(member.getUserId(), member.getPassword());
+        log.info("로그인 memberId = " + memberId);
 
-        return "login 성공!!";
+        return memberId != null ? "login 성공" : "login 실패";
     }
 
-    @GetMapping("/join")
-    public String joinMember(){
-        return "/memberJoin";// @Controller 면서 String 을 반환하면 view의 논리적 이름이 된다.
+    /**
+     * index.html에서 회원가입을 누르면 회원가입 양식폼을 반환 할거다.
+     * 이떄 Model 에 MemberForm 을 담아서 보내준다.
+     */
+    @GetMapping("/members/new")
+    public String createForm(Model model){
+        model.addAttribute("memberForm", new MemberForm());
+        return "members/createMemberForm";// @Controller 면서 String 을 반환하면 view의 논리적 이름이 된다.
     }
 
+    /**
+     *
+     */
     @ResponseBody
-    @PostMapping("/join")
-    public String addMember(@ModelAttribute Member member, Model model) {
-        model.addAttribute(member);
-        if(memberService.join(member) == null){
-            return "중복된 아이디 입니다.";
-        }
+    @PostMapping("members/new")
+    public String createMember(MemberForm memberForm){
+        Member member = new Member(
+                memberForm.getUserId(),
+                memberForm.getUserName(),
+                memberForm.getPassword(),
+                memberForm.getEmail()
+        );
 
-        return "저장 성공!";
+        memberService.join(member);
+
+        return "회원 가입 완료!!";
     }
+
 
 
 }

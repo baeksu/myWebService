@@ -2,14 +2,28 @@ package Lee.myWebProject.repository;
 
 
 import Lee.myWebProject.domain.Member;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
-public interface MemberRepository {
-    /**
-     * 멤버 객체 저장 관련 인터페이스
-     * 기능 : 저장, 조회
-     */
+import javax.persistence.EntityManager;
+import java.util.List;
 
-    void save(Member member);
+@Repository
+@RequiredArgsConstructor
+public class MemberRepository {
 
-    Member findById(String id);
+    private final EntityManager em;
+
+    public void save(Member member) {
+
+        em.persist(member);
+    }
+
+    public Member findByUserId(String userId , String password) {
+        return em.createQuery("select m from Member m where m.userId = :userId and m.password = :password", Member.class)
+                .setParameter("userId", userId)
+                .setParameter("password", password)
+                .getSingleResult();
+
+    }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,14 +29,13 @@
 
 </head>
 <body>
-<div class="container">
-    <form action="/join" method="post">
+<div>
+    <form class="container" action="/members/new" th:object="${memberForm}" method="post">
         <h1>회원 정보 입력</h1>
-        <input class="input" placeholder="ID" />
-        <input class="input" placeholder="PASSWORD" />
-        <input class="input" placeholder="PASSWORD AGAIN" />
-        <input class="input" placeholder="EMAIL" />
-        <input class="input" placeholder="PHONE NUMBER" />
+        <input type="text" th:field="*{userId}" class="input" placeholder="ID" />
+        <input type="text" th:field="*{userName}" class="input" placeholder="이름" />
+        <input type="text" th:field="*{password}" class="input" placeholder="PASSWORD" />
+        <input type="text" th:field="*{email}" class="input" placeholder="EMAIL" />
         <input type="submit" value="제출">
     </form>
 </div>

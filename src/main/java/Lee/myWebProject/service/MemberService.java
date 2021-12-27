@@ -6,9 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Setter @Getter
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -21,17 +25,20 @@ public class MemberService {
     /**
      * 회원 가입
      */
+    @Transactional
     public Member join(Member member) {
         validateDuplicateMember(member);
         memberRepository.save(member);
         return member;
     }
 
+    public Long doLogin(String userId, String password){
+        Member loginMember = memberRepository.findByUserId(userId, password);
+        return loginMember.getId();
+    }
+
     private void validateDuplicateMember(Member member) {
-        Member isAlreadyMember = memberRepository.findById(member.getId());
-        if(isAlreadyMember != null ) {
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
-        }
+
     }
 
 
