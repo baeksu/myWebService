@@ -1,8 +1,7 @@
-package Lee.myWebProject.domain;
+package Lee.myWebProject.domain.member;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +15,8 @@ public class Member {
     public Member() {
     }
 
-    public Member(String userId, String userName, String password, String email) {
-        this.userId = userId;
+    public Member(String loginId, String userName, String password, String email) {
+        this.loginId = loginId;
         this.userName = userName;
         this.password = password;
         this.email = email;
@@ -28,7 +27,7 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    private String userId;
+    private String loginId;
     private String userName;
     private String password;
     private String email;

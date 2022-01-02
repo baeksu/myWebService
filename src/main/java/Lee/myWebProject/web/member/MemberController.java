@@ -1,8 +1,8 @@
-package Lee.myWebProject.controller;
+package Lee.myWebProject.web.member;
 
 
-import Lee.myWebProject.domain.Member;
-import Lee.myWebProject.service.MemberService;
+import Lee.myWebProject.domain.member.Member;
+import Lee.myWebProject.domain.member.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import javax.validation.Valid;
 
 
 @Slf4j
@@ -26,13 +25,13 @@ public class MemberController {
     }
 
     /**
-     * 초기데이터 입력
+     * 테스트용 데이터 하나 넣어두자
      */
     @PostConstruct
     public void init(){
         Member member = new Member();
         member.setUserName("백수");
-        member.setUserId("baeksu");
+        member.setLoginId("baeksu");
         member.setPassword("123");
         member.setEmail("baeksu@ex.com");
 
@@ -43,19 +42,7 @@ public class MemberController {
      * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      **/
 
-    /**
-     * id, pw 를 입력받아서 로그인 하는 화면
-     */
-    @ResponseBody
-    @PostMapping("/login")
-    public String login(@ModelAttribute Member member) {
-        //@ModelAttribute로 해도 값이 넘어오네? 스프링이 알아서 html name이름을 보고 해당
-        // Member의 set을 호출하는건가? -> get,post 처리하는거좀 블로그에 정리한번 하자
-        Long memberId = memberService.doLogin(member.getUserId(), member.getPassword());
-        log.info("로그인 memberId = " + memberId);
 
-        return memberId != null ? "login 성공" : "login 실패";
-    }
 
     /**
      * index.html에서 회원가입을 누르면 회원가입 양식폼을 반환 할거다.
@@ -68,7 +55,7 @@ public class MemberController {
     }
 
     /**
-     *
+     * 회원가입 폼 작성 후 제출을 누르면 회원가입을 완료한다.
      */
     @ResponseBody
     @PostMapping("members/new")
@@ -87,4 +74,7 @@ public class MemberController {
 
 
 
+
 }
+
+

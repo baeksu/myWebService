@@ -1,14 +1,12 @@
-package Lee.myWebProject.service;
+package Lee.myWebProject.domain.member;
 
-import Lee.myWebProject.domain.Member;
-import Lee.myWebProject.repository.MemberRepository;
+import Lee.myWebProject.domain.member.Member;
+import Lee.myWebProject.domain.member.MemberRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Setter @Getter
@@ -32,14 +30,8 @@ public class MemberService {
         return member;
     }
 
-    public Long doLogin(String userId, String password){
-        Member loginMember = memberRepository.findByUserId(userId, password);
-        return loginMember.getId();
-    }
 
     private void validateDuplicateMember(Member member) {
 
     }
-
-
 }
