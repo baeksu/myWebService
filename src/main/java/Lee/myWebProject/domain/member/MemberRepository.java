@@ -14,8 +14,8 @@ public class MemberRepository {
     private final EntityManager em;
 
     public void save(Member member) {
-
         em.persist(member);
+
     }
 
     public Member findByLoginId(String userId , String password) {
@@ -26,6 +26,7 @@ public class MemberRepository {
                     .setParameter("password", password)
                     .getSingleResult();
         }catch(NoResultException e){
+            //조회가 안되면 null을 반환해주자
             return null;
         }
 

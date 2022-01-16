@@ -26,11 +26,11 @@ public class LoginController {
     private final MemberRepository memberRepository;
 
 
-    @GetMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("loginForm", new LoginForm());
-        return "members/loginMemberForm";
-    }
+//    @GetMapping("/login")
+//    public String login(Model model) {
+//        model.addAttribute("loginForm", new LoginForm());
+//        return "members/loginMemberForm";
+//    }
     /**
      * id, pw 를 입력받아서 로그인 하는 화면
      */
@@ -56,7 +56,7 @@ public class LoginController {
         response.addCookie(idCookie);
 
         model.addAttribute("member", loginMember);
-        return "/mainPage";
+        return "home";
     }
 
 

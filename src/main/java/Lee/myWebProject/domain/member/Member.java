@@ -12,15 +12,6 @@ import javax.persistence.Id;
 @Getter @Setter
 public class Member {
 
-    public Member() {
-    }
-
-    public Member(String loginId, String userName, String password, String email) {
-        this.loginId = loginId;
-        this.userName = userName;
-        this.password = password;
-        this.email = email;
-    }
 
     @Id
     @GeneratedValue
@@ -31,6 +22,17 @@ public class Member {
     private String userName;
     private String password;
     private String email;
+
+
+    public Member() {
+    }
+
+    public Member(String loginId, String userName, String password, String email) {
+        this.loginId = loginId;
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+    }
 
 
 

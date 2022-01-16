@@ -18,6 +18,7 @@ public class MemberService {
     @Autowired
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
+
     }
 
     /**
@@ -25,13 +26,9 @@ public class MemberService {
      */
     @Transactional
     public Member join(Member member) {
-        validateDuplicateMember(member);
         memberRepository.save(member);
         return member;
     }
 
 
-    private void validateDuplicateMember(Member member) {
-
-    }
 }

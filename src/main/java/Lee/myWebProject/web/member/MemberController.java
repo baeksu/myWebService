@@ -1,8 +1,11 @@
 package Lee.myWebProject.web.member;
 
 
+import Lee.myWebProject.domain.bulletinBoard.PostService;
 import Lee.myWebProject.domain.member.Member;
 import Lee.myWebProject.domain.member.MemberService;
+import Lee.myWebProject.domain.bulletinBoard.Post;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,14 +18,13 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @Controller
 @RequestMapping//localhost:8080 일 때 맨처음 화면
+@RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
+    private final PostService postService;//이거 더미테스트 넣으려고 임시로 넣어둔거다
 
-    @Autowired//MemberService 를 생성자 주입
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
+
 
     /**
      * 테스트용 데이터 하나 넣어두자
@@ -36,6 +38,14 @@ public class MemberController {
         member.setEmail("baeksu@ex.com");
 
         memberService.join(member);
+
+        for(Long i = 1L ; i<= 100 ; i++){
+            Post dumyPost = new Post(String.valueOf(i), i, "", member);
+            postService.savePost(dumyPost);
+        }
+
+
+        log.info("+++++++더미 데이터 생성 완료!!!+++++++++");
     }
 
     /**

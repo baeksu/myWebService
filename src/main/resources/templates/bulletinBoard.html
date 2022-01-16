@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{home :: layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+</head>
+<body>
+    
+    <section>
+        <form action="/aaa" method="get">
+            <input type="submit" value="글쓰기">
+        </form>
+
+        <form action="/bbb" method="get">
+            <input type="text" id="searchContent" name="searchContent" >
+            <input type="submit" value="검색">
+        </form>
+
+        <table class="table">
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일자</th>
+            <tr th:each="post : ${posts}"><!--첫번째 row-->
+                <td th:text="${post.id}">postId</td>
+                <td th:text="${post.title}">postTitle</td>
+                <td th:text="${post.member.userName}">postMemberUserName</td>
+            </tr>
+        </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+    
+
+</body>
+</html>
