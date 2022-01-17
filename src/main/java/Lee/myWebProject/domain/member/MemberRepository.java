@@ -29,7 +29,15 @@ public class MemberRepository {
             //조회가 안되면 null을 반환해주자
             return null;
         }
+    }
 
-
+    public Member findById(Long id){
+        try{
+            return em.createQuery("select m from Member m where m.id = :id",Member.class)
+                    .setParameter("id",id)
+                    .getSingleResult();
+        }catch (NoResultException e){
+            return null;
+        }
     }
 }

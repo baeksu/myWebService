@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{home :: layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+</head>
+<body>
+
+
+<section>
+    <form action="/aaa" method="post">
+        <input type="submit" value="등록">
+        <input type="text" value="제목">
+        <input type="text" value="내용">
+    </form>
+</section>
+
+
+</body>
+</html>

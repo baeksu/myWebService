@@ -27,6 +27,10 @@ public class Post {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    //현재 가리키고 있는 시작 페이지 초기값:0
+    @Transient
+    private Integer pageIdx;
+
     public Post() {}
 
     public Post(String title, Long viewCnt, String content, Member member) {

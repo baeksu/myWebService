@@ -26,7 +26,7 @@ public class PostRepository{
      */
     public List<Post> getAll(Integer idx){
         List<Post> result = em.createQuery("select p from Post p order by p.id desc", Post.class)
-                .setFirstResult(idx)
+                .setFirstResult(idx*10)
                 .setMaxResults(10)
                 .getResultList();
 
