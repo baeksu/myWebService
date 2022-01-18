@@ -8,12 +8,11 @@
 </head>
 <body>
 
-
 <section>
-    <form action="/aaa" method="post">
+    <form action="/bulletinBoard/new" th:object="${postForm}" method="post">
         <input type="submit" value="등록">
-        <input type="text" value="제목">
-        <input type="text" value="내용">
+        <input type="text" th:field="*{title}" value="제목">
+        <input type="text" th:field="*{content}" value="내용">
     </form>
 </section>
 

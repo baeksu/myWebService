@@ -30,5 +30,9 @@ public class MemberService {
         return member;
     }
 
+    public Member findMemberById(Long id){
+        return memberRepository.findById(id);
+    }
+
 
 }
