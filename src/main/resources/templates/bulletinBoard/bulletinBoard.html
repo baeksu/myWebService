@@ -13,7 +13,7 @@
             <input type="submit" value="글쓰기">
         </form>
 
-        <form action="/bbb" method="get">
+        <form action="/bulletinBoard/search" method="get">
             <input type="text" id="searchContent" name="searchContent" >
             <input type="submit" value="검색">
         </form>
@@ -31,14 +31,17 @@
         </table>
 
         <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center" th:with="startPage=${page}">
+            <ul class="pagination justify-content-center">
                 <li class="page-item">
-                    <a class="page-link" th:if="${startPage gt 1}" th:href="${startPage}-1">Previous</a>
-                    <a class="page-link" th:unless="${startPage gt 1}" th:href="${startPage}">Previous</a>
+                    <a class="page-link" th:if="${page gt 1}" th:href="@{/bulletinBoard/{pageId}(pageId=${page}-1)}">Previous</a>
+                    <a class="page-link"  th:unless="${page gt 1}" >Previous</a>
                 </li>
-                <li class="page-item"  th:each="num:${#numbers.sequence(((startPage-1)/10)*10 + 1,((startPage-1)/10)*10 + 1+9)}"><a class="page-link" th:href="${num}"><span th:text="${num}">1</span></a></li>
+                <li class="page-item"  th:each="num:${#numbers.sequence(startPage,endPage)}">
+                    <a class="page-link" th:href="@{/bulletinBoard/{pageId}(pageId=${num})}"><span th:text="${num}">1</span></a>
+                    <!--아... 여기 그거네... previous,next는 기본적으로 경로가/bulletinboard/x 로 시작해서 페이지만 바꿔도 되는거였구나... 하...-->
+                </li>
                 <li class="page-item">
-                    <a class="page-link" th:href="${startPage}+1">Next</a>
+                    <a class="page-link" th:href="@{/bulletinBoard/{pageId}(pageId=${page}+1)}">Next</a>
                 </li>
             </ul>
         </nav>

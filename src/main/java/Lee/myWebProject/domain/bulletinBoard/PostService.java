@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Service
@@ -28,6 +29,10 @@ public class PostService {
      */
     public List<Post> getAllPost(Integer idx){
         return postRepository.getAll(idx);
+    }
+
+    public List<Post> findPostByKeyword(String keyword, Integer idx) {
+        return postRepository.findPostByKeyword(keyword,idx);
     }
 
 }
