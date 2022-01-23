@@ -37,7 +37,8 @@ public class PostRepository{
 
 
     public List<Post> findPostByKeyword(String keyword,Integer idx) {
-        List<Post> result = em.createQuery("select p from Post p where p.title LIKE CONCAT('%',:keyword ,'%')", Post.class)
+        List<Post> result = em.createQuery("select p from Post p" +
+                        " where p.title LIKE CONCAT('%',:keyword ,'%')", Post.class)
                 .setParameter("keyword",keyword)
                 .setFirstResult(idx*10)
                 .setMaxResults(10)

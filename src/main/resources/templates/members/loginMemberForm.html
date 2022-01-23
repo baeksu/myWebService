@@ -9,7 +9,7 @@
 </head>
 <body>
 <div th:fragment="menu" >
-    <div th:if="${member} == null">
+    <div>
         <form action="/login"  method="post" >
             <div>
                 <h1>로그인 화면!!!</h1>
@@ -22,15 +22,6 @@
             <input type="submit" value="회원가입">
         </form>
     </div>
-
-    <div th:if="${member} != null">
-        <!--여기에 프로필 사진을 넣어주고 싶은데...-->
-        <ul>
-            <li th:text="${member.userName}">사용자 이름</li>
-        </ul>
-
-    </div>
-
 </div>
 
 

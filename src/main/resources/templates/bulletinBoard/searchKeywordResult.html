@@ -33,15 +33,14 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item">
-                <a class="page-link" th:if="${page gt 1}" th:href="@{/bulletinBoard/search?searchContent={pageId}(pageId=${startPage}-1)}">Previous</a>
+                <a class="page-link" th:if="${page gt 1}" th:href="@{/bulletinBoard/search(searchContent=${searchContent},page=${page-1})}">Previous</a>
                 <a class="page-link"  th:unless="${page gt 1}" >Previous</a>
             </li>
             <li class="page-item"  th:each="num:${#numbers.sequence( startPage,endPage)}">
-                <a class="page-link" th:href="@{/bulletinBoar${searchContent}, pageIdx=${num})}"><span th:text="${num}">1</span></a>
-                <!-- 서버에서 넘겨주자 검색값을 -->
+                <a class="page-link" th:href="@{/bulletinBoard/search(searchContent=${searchContent},page=${num})}"><span th:text="${num}">1</span></a>
             </li>
             <li class="page-item">
-                <a class="page-link" th:href="@{/bulletinBoard/search?searchContent={pageId}(pageId=${startPage}+1)}">Next</a>
+                <a class="page-link" th:href="@{/bulletinBoard/search(searchContent=${searchContent},page=${page+1})}">Next</a>
             </li>
         </ul>
     </nav>

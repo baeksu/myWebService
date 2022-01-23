@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{home :: layout(~{::section})}">
+      th:if="${sessionId == null}" th:replace="~{home :: layout(~{::section})}">
+
 <head>
     <meta charset="UTF-8">
 
@@ -33,15 +34,15 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item">
-                    <a class="page-link" th:if="${page gt 1}" th:href="@{/bulletinBoard/{pageId}(pageId=${page}-1)}">Previous</a>
+                    <a class="page-link" th:if="${page gt 1}" th:href="@{/bulletinBoard/(page=${page-1})}">Previous</a>
                     <a class="page-link"  th:unless="${page gt 1}" >Previous</a>
                 </li>
                 <li class="page-item"  th:each="num:${#numbers.sequence(startPage,endPage)}">
-                    <a class="page-link" th:href="@{/bulletinBoard/{pageId}(pageId=${num})}"><span th:text="${num}">1</span></a>
+                    <a class="page-link" th:href="@{/bulletinBoard/(page=${num})}"><span th:text="${num}">1</span></a>
                     <!--아... 여기 그거네... previous,next는 기본적으로 경로가/bulletinboard/x 로 시작해서 페이지만 바꿔도 되는거였구나... 하...-->
                 </li>
                 <li class="page-item">
-                    <a class="page-link" th:href="@{/bulletinBoard/{pageId}(pageId=${page}+1)}">Next</a>
+                    <a class="page-link" th:href="@{/bulletinBoard/(page=${page+1})}">Next</a>
                 </li>
             </ul>
         </nav>

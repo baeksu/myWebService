@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main_page</title>
+
+</head>
+<body>
+<div th:fragment="menu" >
+    <div>
+        <!--여기에 프로필 사진을 넣어주고 싶은데...-->
+        <ul>
+            <li th:text="${member.userName}">사용자 이름</li>
+        </ul>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

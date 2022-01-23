@@ -2,6 +2,8 @@ package Lee.myWebProject.web.login;
 
 import Lee.myWebProject.domain.member.Member;
 import Lee.myWebProject.domain.member.MemberRepository;
+import Lee.myWebProject.web.AddtionalInfoInterface;
+import jdk.jfr.Frequency;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import javax.validation.Valid;
 
 @Controller
@@ -38,7 +38,7 @@ public class LoginController {
     public String login(@Valid @ModelAttribute LoginForm loginForm,
                         BindingResult result,
                         Model model,
-                        HttpServletResponse response) {
+                        HttpServletRequest request) {
 
         if (result.hasErrors()) {
             return "members/loginMemberForm";
@@ -50,13 +50,10 @@ public class LoginController {
             return "members/loginMemberForm";
         }
 
-
-        //쿠키에 시간 정보를 주지 않으면 세션 쿠키(브라우저 종료시 모두 종료)
-        Cookie idCookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
-        response.addCookie(idCookie);
-
+        HttpSession session = request.getSession();
+        session.setAttribute(AddtionalInfoInterface.SESSION_COOKIE_NAME, loginMember);
         model.addAttribute("member", loginMember);
-        return "home";
+        return "redirect:/";
     }
 
 

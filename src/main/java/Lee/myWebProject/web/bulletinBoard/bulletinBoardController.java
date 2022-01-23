@@ -5,6 +5,7 @@ import Lee.myWebProject.domain.bulletinBoard.PostService;
 import Lee.myWebProject.domain.member.Member;
 import Lee.myWebProject.domain.member.MemberRepository;
 import Lee.myWebProject.domain.member.MemberService;
+import Lee.myWebProject.web.AddtionalInfoInterface;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,35 +28,32 @@ public class bulletinBoardController {
     private final PostService postService;
     private final MemberService memberService;
 
+
     @GetMapping("/bulletinBoard")
-    public String board(Model model) {
-        //자유게시판 디폴트 페이지 기본적으로 1페이지를 가리킨다.
-        List<Post> posts = postService.getAllPost(0);
-        setModelAboutPost(model, posts, 1);
-        return "bulletinBoard/bulletinBoard";
-    }
+    public String board(@SessionAttribute(name = AddtionalInfoInterface.SESSION_COOKIE_NAME, required = false)Member loginMember,
+                        @RequestParam(defaultValue = "1") int page,Model model, HttpServletRequest request ) {
 
-    @GetMapping("/bulletinBoard/{page}")
-    public String board(@PathVariable Integer page, Model model) {
-        //2페이지부터는 여기서 렌더링 해주자
-        List<Post> posts = postService.getAllPost(page - 1);
-
-        //1~10 , 11~20 , ... 시작 페이지 번호를 계산해서 넘겨주자
+        List<Post> posts = postService.getAllPost(page);
         setModelAboutPost(model, posts, page);
-        return "bulletinBoard/bulletinBoard";
+
+        //로그인 멤버를 세션에서 가져온다
+        if (loginMember == null) {
+            return "bulletinBoard/bulletinBoard";
+        } else {
+            model.addAttribute(loginMember);
+            return "bulletinBoard/loginBulletinBoard";
+        }
     }
+
 
     @GetMapping("/bulletinBoard/new")
     public String add(Model model, HttpServletRequest request) {
 
         //로그인 여부 체크 구현해야함
-        //현재 쿠키 버전
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            return "home";
+        HttpSession session = request.getSession();
+        if (session == null) {
+            return "/bulletinBoard/bulletinBoard";
         }
-        String cookieValue = cookies[0].getValue();
-        Long memberId = Long.parseLong(cookieValue);
 
         //글작성
         model.addAttribute("postForm", new PostForm());
@@ -72,23 +71,15 @@ public class bulletinBoardController {
                 memberService.findMemberById(Long.parseLong(request.getCookies()[0].getValue()))));
 
         //여기서는 redirect를 해줘야지... 왜냐? 해당 url로 get요청이 필요하다. 페이징 + 게시글 출력때문에
-        return "redirect:/bulletinBoard/1";
+        return "redirect:/bulletinBoard";
     }
+
 
     @GetMapping("/bulletinBoard/search")
-    public String searchPost(@RequestParam String searchContent, Model model) {
-        List<Post> posts = postService.findPostByKeyword(searchContent,0);
+    public String searchPost(@RequestParam String searchContent,@RequestParam(defaultValue = "1") int page, Model model) {
+        log.info(searchContent + " " + page);
 
-        //1~10 , 11~20 , ... 시작 페이지 번호를 계산해서 넘겨주자
-        setModelAboutSearchPost(model,posts,1,searchContent);
-        return "bulletinBoard/searchKeywordResult";
-    }
-
-    @GetMapping("/bulletinBoard/search/page")
-    public String searchPost(@RequestParam String searchContent,@RequestParam Integer page, Model model) {
-        log.info("ddddddddfwefwefwewefwefwefwfewfewfefwe");
         List<Post> posts = postService.findPostByKeyword(searchContent,page-1);
-
 
         //1~10 , 11~20 , ... 시작 페이지 번호를 계산해서 넘겨주자
         setModelAboutSearchPost(model,posts,page,searchContent);
