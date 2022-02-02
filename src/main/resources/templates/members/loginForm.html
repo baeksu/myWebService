@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>회원 가입 화면!!!</title>
+    <title>로그인 화면</title>
 
     <style>
         html,
@@ -32,15 +32,12 @@
 </head>
 <body>
 <div>
-    <form class="container" action="/members/new" th:object="${memberForm}" method="post">
+    <form class="container" th:object="${loginForm}" method="post">
         <h1>회원 정보 입력</h1>
-        <input type="text" th:field="*{userId}" th:errorclass="field-error" class="input" placeholder="ID" >
-            <div class="field-error" th:errors="*{userId}">ID 입력 오류</div>
-        <input type="text" th:field="*{userName}" th:errorclass="field-error" class="input" placeholder="이름" >
-            <div class="field-error" th:errors="*{userName}">사용자 이름 입력 오류</div>
+        <input type="text" th:field="*{loginId}" th:errorclass="field-error" class="input" placeholder="ID" >
+            <div class="field-error" th:errors="*{loginId}">ID 입력 오류</div>
         <input type="text" th:field="*{password}" th:errorclass="field-error" class="input" placeholder="PASSWORD" />
             <div class="field-error" th:errors="*{password}">비밀번호 입력 오류</div>
-        <input type="text" th:field="*{email}" th:errorclass="field-error" class="input" placeholder="EMAIL" />
         <input type="submit" value="제출">
     </form>
 </div>

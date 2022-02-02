@@ -49,12 +49,6 @@ public class bulletinBoardController {
     @GetMapping("/bulletinBoard/new")
     public String add(Model model, HttpServletRequest request) {
 
-        //로그인 여부 체크 구현해야함
-        HttpSession session = request.getSession();
-        if (session == null) {
-            return "/bulletinBoard/bulletinBoard";
-        }
-
         //글작성
         model.addAttribute("postForm", new PostForm());
         return "bulletinBoard/addPost";

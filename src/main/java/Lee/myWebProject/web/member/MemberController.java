@@ -10,9 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 
 @Slf4j
@@ -67,19 +72,27 @@ public class MemberController {
     /**
      * 회원가입 폼 작성 후 제출을 누르면 회원가입을 완료한다.
      */
-    @ResponseBody
     @PostMapping("members/new")
-    public String createMember(MemberForm memberForm){
+    public String createMember(@Validated @ModelAttribute MemberForm memberForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> allErrors = bindingResult.getAllErrors();
+            for (ObjectError err : allErrors) {
+                log.info("error={}", err);
+            }
+            return "members/createMemberForm";
+        }
+
         Member member = new Member(
                 memberForm.getUserId(),
                 memberForm.getUserName(),
                 memberForm.getPassword(),
                 memberForm.getEmail()
         );
-
         memberService.join(member);
 
-        return "회원 가입 완료!!";
+        //뭔가 회원가입 완료 메세지를 팝업창으로 띄워주고 home화면으로 보내고 싶은데
+        return "/home";
     }
 
 
